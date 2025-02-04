@@ -79,7 +79,7 @@ risk_level_health(HealthReports, 'Low') :-
 
 % Query to evaluate overall risk.
 evaluate_risk :-
-    write(''), read(Deforestation),
+    write('Enter deforestation percentage (0-100): '), read(Deforestation),
     write('Enter water turbidity (NTU): '), read(Turbidity),
     write('Enter heavy metal concentration (ppb): '), read(HeavyMetals),
     write('Enter soil erosion rate (%): '), read(SoilErosion),
@@ -91,6 +91,7 @@ evaluate_risk :-
     write('Enter noise level (dB): '), read(NoiseLevel),
     write('Enter number of community health reports: '), read(HealthReports),
     
+    % Calculate risk levels for each factor
     risk_level(Deforestation, Turbidity, HeavyMetals, SoilErosion, Reports, Risk1),
     risk_level_pH_DO(pH, DO, Risk2),
     risk_level_biodiversity(BiodiversityLoss, Risk3),
@@ -98,8 +99,10 @@ evaluate_risk :-
     risk_level_noise(NoiseLevel, Risk5),
     risk_level_health(HealthReports, Risk6),
     
+    % Determine overall risk level
     overall_risk([Risk1, Risk2, Risk3, Risk4, Risk5, Risk6], OverallRisk),
     
+    % Output the overall risk level
     write('The overall risk level is: '), write(OverallRisk), nl.
 
 % Rule to determine overall risk based on individual risk levels.
